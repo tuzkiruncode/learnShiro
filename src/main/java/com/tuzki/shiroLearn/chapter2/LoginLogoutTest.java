@@ -24,4 +24,38 @@ public class LoginLogoutTest {
 		Assert.assertEquals(true, subject.isAuthenticated());
 		subject.logout();
 	}
+	@Test
+	public void testCustumRealm() {
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro-realm.ini");
+		SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
+		
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken("wang", "123");
+		
+		try {
+			subject.login(token);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		Assert.assertEquals(true, subject.isAuthenticated());
+		subject.logout();
+	}
+	@Test
+	public void testJdbcRealm() {
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro-jdbc-realm.ini");
+		SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
+		
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken("wang", "123");
+		
+		try {
+			subject.login(token);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		Assert.assertEquals(true, subject.isAuthenticated());
+		subject.logout();
+	}
 }
